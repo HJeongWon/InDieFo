@@ -1,0 +1,62 @@
+#search_div {
+    position: relative;
+    margin-top: 10%;
+    text-align: center;
+    /*
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 200px;
+    padding-right: 200px;
+
+*/
+}
+
+#search_initial {
+    width: 200px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    margin-left: 10px;
+    color: gray;
+}
+#game_list
+{
+    position: relative;
+    margin-top: 10%;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: inline;
+}
+
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* { font-family: 'Nanum Gothic', sans-serif; }
+
+.spaceLeft {
+    margin-left: 10px;
+}
+.spaceRight {
+    margin-right: 10px;
+}
+
+/* custom checkbox */
+.btn span.fa {
+    opacity: 0;
+}
+.btn.active span.fa {
+    opacity: 1;
+}
+#register_b
+{
+ margin-left: 66%;
+
+}
+
