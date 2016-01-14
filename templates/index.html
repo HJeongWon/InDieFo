@@ -131,30 +131,37 @@
     <div id="game_list">
 
         <li>
-        <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=118#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+        <a href="/1/main"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
 
         </li>
         <li>
-            <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=118#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+            <a href="/2/main"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
         </li>
         <li>
-            <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=119#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+            <a href="/3/main"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
         </li>
         <li>
-            <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=118#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+            <a href="/4/main"><img src="http://playwares.com/files/attach/images/763163/578/380/027/c49423257410f1036d9a97da296bc97a.jpg"></a>
         </li>
 
         <li>
-            <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=118#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+            <a href="/5/main"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
         </li>
         <li>
-            <a href="http://lol.inven.co.kr/dataninfo/champion/manualTool.php?champnum=118#liststart"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
+            <a href="/6/main"><img src="http://static.inven.co.kr/image_2011/site_image/lol/dataninfo/icon/champions/VelKoz_Square_0.jpg"></a>
         </li>
 
 
     </div>
 
 
+    {% for post in board.__iter__() %}
+
+
+
+  {{ post.title }}
+
+    {% endfor %}
 
 
 
@@ -164,17 +171,18 @@
     </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script>
+
+  <script>
         (function () {
 
             var targets = $("#game_list").children();
+
             for (var i = 0; i < targets.length; i += 4) {
                 $("<ul></ul>").append(targets.slice(i, i + 4)).appendTo("#game_list");
             }
-            console.log(targets);
+
         }());
     </script>
-
 
 </body>
 

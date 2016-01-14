@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>INDIEFO</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="ano    nymous">
+
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+</head>
+
+<body>
+
+
+
+<article class="container">
+
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>글쓰기 </h1>
+        </div>
+        <form class="form-horizontal" method="POST" action="/w_success" >
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="inputEmail">제목</label>
+                <div class="col-sm-6">
+                    <input class="form-control" name="title" id="inputEmail" type="text" placeholder="제목">
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" >내용</label>
+                <div class="col-sm-6">
+                 <textarea name = "textarea"id="b_textarea"class="form-control col-sm-5" rows="5"></textarea>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+                    <button class="btn btn-primary" id="register_b" type="submit" >제출<i class="fa fa-check spaceLeft"></i></button>
+
+        </form>
+        <hr>
+    </div>
+</article>
+
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
