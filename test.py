@@ -1,100 +1,49 @@
-from datetime import datetime
 
-from flask import Flask, jsonify ,render_template,request,session,make_response
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-from flask_sqlalchemy import SQLAlchemy
+from flask import (
+    Flask ,
+    render_template,
+    request,
+    session,
+    make_response,
+    redirect,
+    url_for,
+)
+from db import (
+    db,
+    User,
+    Board,
+    migrate,
+
+)
+from sqlalchemy.sql import (
+    func,
+
+)
+from admin import admin
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-app.config['SECRET_KEY'] = 'asldjalksjdklasd'
-admin = Admin(app)
-db = SQLAlchemy(app)
+app.config.from_pyfile("configs.py")
 
 
-class User(db.Model):
-    """
-    from test import db
-    db.create_app()
-    """
-    __tablename__ = "user"
+admin.init_app(app)
+db.init_app(app)
 
-    idx = db.Column(db.Integer, primary_key=True)
+migrate.init_app(app,db)
 
-    nickname = db.Column(db.String(20),unique=True)
-    email = db.Column(db.String(20), unique=True)
-    pw = db.Column(db.String(20))
-    created = db.Column(db.DateTime, default=datetime.now)
 
-    # no __init__()
 
-class Comment(db.Model):
-    __tablename__ = "comment"
 
-    idx = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(200))
-    who = db.Column(db.Integer, db.ForeignKey('user.idx'))
 
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Comment, db.session))
+
 
 
 @app.route("/")
 def hello():
     return render_template("index.html")
 
-@app.route("/create/<name>/<id>/<pw>")
-def create(name, id, pw):
-    new = User()
-    new.name = name
-    new.id = id
-    new.pw = pw
-    db.session.add(new)
-    db.session.commit()
-    return jsonify({
-        "id": id,
-        "pw": pw,
-        "data": [
-            "heheheheheh",
-            "wowowowowowo",
-            "hell yeah",
-        ]
-    })
 
 
-
-@app.route("/search/<name>/<id>/<pw>")
-def search(name, id, pw, is_web=True):
-    found = User.query.filter(
-        User.name == name,
-        User.id == id,
-        User.pw == pw,
-    ).first()
-    if found:
-        if is_web:
-            return 'success! %s' % (found.id, )
-        else:
-            return found
-    if is_web:
-        return 'failed'
-    else:
-        return None
-
-
-@app.route("/delete/<name>/<id>/<pw>")
-def delete(name, id, pw):
-    found = search(name, id, pw, is_web=False)
-    db.session.delete(found)
-    db.session.commit()
-    return 'deleted!'
-@app.route("/g_search",methods=['GET'])
-def g_search():
-    return "dasdsa"
-@app.route("/register")
-def register():
-    return render_template(
-        "register.html"
-    )
 @app.route("/r_success",methods=['GET','POST'])
 def r_success():
     nickname = request.form['nickname']
@@ -165,10 +114,10 @@ def l_success():
              </script>
         '''
 
-@app.route("/success")
-def success():
+
+def username():
     username = request.cookies.get('username')
-    return "<h1>" + str(username)
+    return username
 def is_already_registered(email,nickname):
     found = User.query.filter(
         User.email == email,
@@ -182,9 +131,97 @@ def is_already_registered(email,nickname):
         return 3
 
     return False
+@app.route("/<id>/main")
+def g_main():
+    return "Dsa"
+@app.route("/<id>/write")
+def write(id):
+    if not session['logged_in']:
+        return  '''
+             <script>
+             alert("로그인이 필요한 서비스 입니다.");
+            history.back();
+             </script>
+        '''
+    return render_template(
+        "write.html"
+    )
+@app.route("/w_success",methods=['GET','POST'])
+def w_success():
+
+    board = Board()
+
+    if request.method == "POST":
+        title = request.form['title']
+        text = request.form['textarea']
+
+
+        board.title = title
+        board.text = text
+        board.writer = username()
+
+        board.num = db.session.query(
+            func.max(Board.num),
+        ).one()[0]
+        if board.num == None:
+            board.num = 1
+        else:
+            board.num += 1
 
 
 
+
+
+
+        db.session.add(board)
+        db.session.commit()
+
+
+    return redirect(url_for("list"))
+
+@app.route("/list")
+def list():
+    pageCount = 1
+    pageSize = 10
+    if request.method=='GET':
+        pageCount=int(request.args.get("page",1))
+        board1 = Board.query.all()
+        board1 = board1[(pageCount-1)*pageSize:pageCount*pageSize]
+        return render_template("board.html",board = board1,)
+    else:
+        board1 = Board.query.all()
+        board1 = board1[(pageCount-1)*pageSize:pageCount*pageSize]
+        return render_template("board.html",board = board1,)
+
+
+@app.route("/<int:id>")
+def read(id):
+    board = Board()
+    board = board.query.get(id)
+    board.count = db.session.query(
+            func.max(Board.count),
+        ).one()[0]
+    if board.count == None:
+        board.count = 0
+    else:
+        board.count += 1
+
+    db.session.add(board)
+    db.session.commit()
+
+    return render_template(
+        "read.html",board = board
+
+
+    )
+
+
+@app.route("/byebye")
+def byebye():
+    found = Board.query.all()
+    for i in found:
+        db.session.delete(i)
+    db.session.commit()
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=5000, debug=True)

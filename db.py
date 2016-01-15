@@ -32,9 +32,10 @@ class Board(db.Model):
     __tablename__ = "board"
     idx = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-
+    num = db.Column(db.Integer(), default=0)
+    count = db.Column(db.Integer(), default=0)
+    good = db.Column(db.Integer(), default=0)
+    bad = db.Column(db.Integer(), default=0)
     text = db.Column(db.String(10000))
     writer = db.Column(db.String(100))
     created = db.Column(db.DateTime, default=datetime.now)
-    def __iter__(self):
-        return iter([attr for attr in dir(Comment) if attr[:5] != "__"])

@@ -60,3 +60,10 @@ li {
 
 }
 
+#b_textarea {
+    margin: 0px;
+    width: 540px;
+    height: 462px;
+    resize:none;
+
+}
